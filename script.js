@@ -26,11 +26,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function validarFormulario() {
-    const valido =
-      fecha.value.trim() !== "" &&
-      nombre.value.trim() !== "" &&
-      puntoVenta.value.trim() !== "";
-    btnGuardar.disabled = !valido;
+      const obligatorio =
+    fecha.value.trim() !== "" &&
+    nombre.value.trim() !== "" &&
+    puntoVenta.value.trim() !== "" &&
+    ventaEfectivo.value.trim() !== "" &&
+    ventaTarjeta.value.trim() !== "" &&
+    total.value.trim() !== "";
+
+  btnGuardar.disabled = !obligatorio;
   }
 
   [fecha, nombre, puntoVenta].forEach(c => {
