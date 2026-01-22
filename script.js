@@ -12,7 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnGuardar = document.getElementById("btnGuardar");
   const mensaje = document.getElementById("mensaje");
 
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz9TAKS1F5tGwmn-ptYH8uTNeWXG3k1OKkHDoD2cAunNwbI4Mg0GAv3JEyPP3kUe0zNLg/exec";
+  const GOOGLE_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbz9TAKS1F5tGwmn-ptYH8uTNeWXG3k1OKkHDoD2cAunNwbI4Mg0GAv3JEyPP3kUe0zNLg/exec";
 
   function parseEuro(valor) {
     return parseFloat(valor.replace(",", ".")) || 0;
@@ -21,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function actualizarTotal() {
     const efectivo = parseEuro(ventaEfectivo.value);
     const tarjeta = parseEuro(ventaTarjeta.value);
-    const gasto = parseEuro(gastos.value);
     total.value = (efectivo + tarjeta).toFixed(2).replace(".", ",");
   }
 
@@ -48,22 +48,34 @@ document.addEventListener("DOMContentLoaded", () => {
         method: "POST",
         body: JSON.stringify(data)
       });
+
       const result = await response.json();
+
       if (result.status === "success") {
         mensaje.innerHTML = "✅ Venta guardada";
         formulario.reset();
         total.value = "";
+        btnGuardar.textContent = "Enviado ✔";
         btnGuardar.disabled = true;
       } else {
-        mensaje.innerHTML = "❌ Error al guardar";
+        throw new Error("Servidor rechazó datos");
       }
+
     } catch (error) {
       mensaje.innerHTML = "❌ Error de conexión";
+      btnGuardar.disabled = false;
+      btnGuardar.textContent = "Guardar";
     }
   }
 
   formulario.addEventListener("submit", e => {
     e.preventDefault();
+
+    // 🔒 Bloqueo inmediato
+    btnGuardar.disabled = true;
+    btnGuardar.textContent = "Enviando...";
+    mensaje.innerHTML = "";
+
     const data = {
       fecha: fecha.value,
       nombre: nombre.value,
@@ -74,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
       total: total.value,
       observaciones: observaciones.value
     };
+
     enviarDatos(data);
   });
 
