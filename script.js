@@ -57,6 +57,11 @@ document.addEventListener("DOMContentLoaded", () => {
         total.value = "";
         btnGuardar.textContent = "Enviado ✔";
         btnGuardar.disabled = true;
+        // ⏳ Reactivar tras 15 segundos
+setTimeout(() => {
+  btnGuardar.textContent = "Guardar";
+  validarFormulario();
+}, 15000);
       } else {
         throw new Error("Servidor rechazó datos");
       }
