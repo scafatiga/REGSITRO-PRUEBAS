@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function enviarDatos(data) {
 
     try {
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
+      const response = await fetch(https://script.google.com/macros/s/AKfycbz9TAKS1F5tGwmn-ptYH8uTNeWXG3k1OKkHDoD2cAunNwbI4Mg0GAv3JEyPP3kUe0zNLg/exec, {
         method: "POST",
         body: JSON.stringify(data)
       });
