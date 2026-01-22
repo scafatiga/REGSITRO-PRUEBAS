@@ -20,10 +20,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function actualizarTotal() {
-    const efectivo = parseEuro(ventaEfectivo.value);
-    const tarjeta = parseEuro(ventaTarjeta.value);
-    total.value = (efectivo + tarjeta).toFixed(2).replace(".", ",");
-    validarFormulario();
+      const efectivo = parseEuro(ventaEfectivo.value);
+  const tarjeta = parseEuro(ventaTarjeta.value);
+
+  const suma = efectivo + tarjeta;
+
+  if (suma > 0) {
+    total.value = suma.toFixed(2).replace(".", ",");
+  } else {
+    total.value = "";
+  }
   }
 
   function validarFormulario() {
