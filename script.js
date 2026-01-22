@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
           btnGuardar.textContent = "Guardar";
           validarFormulario();
-        }, 5000);
+        }, 2500);
 
       } else {
         throw new Error("Servidor rechazó datos");
