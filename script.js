@@ -20,21 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function actualizarTotal() {
-      const efectivo = parseEuro(ventaEfectivo.value);
-  const tarjeta = parseEuro(ventaTarjeta.value);
-
-  const suma = efectivo + tarjeta;
-
-  if (suma > 0) {
-    total.value = suma.toFixed(2).replace(".", ",");
-  } else {
-    total.value = "";
-  }
+    const efectivo = parseEuro(ventaEfectivo.value);
+    const tarjeta = parseEuro(ventaTarjeta.value);
+    total.value = (efectivo + tarjeta).toFixed(2).replace(".", ",");
   }
 
   function validarFormulario() {
-
-   const efectivo = parseEuro(ventaEfectivo.value);
+    const efectivo = parseEuro(ventaEfectivo.value);
   const tarjeta = parseEuro(ventaTarjeta.value);
 
   const obligatorio =
@@ -43,12 +35,12 @@ document.addEventListener("DOMContentLoaded", () => {
     puntoVenta.value.trim() !== "" &&
     ventaEfectivo.value.trim() !== "" &&
     ventaTarjeta.value.trim() !== "" &&
-    (efectivo + tarjeta) > 0;
+    efectivo + tarjeta > 0;
 
   btnGuardar.disabled = !obligatorio;
   }
 
-  [fecha, nombre, puntoVenta, ventaEfectivo, ventaTarjeta].forEach(c => {
+  [fecha, nombre, puntoVenta].forEach(c => {
     c.addEventListener("input", validarFormulario);
     c.addEventListener("change", validarFormulario);
   });
@@ -58,9 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   async function enviarDatos(data) {
-
     try {
-      const response = await fetch(https://script.google.com/macros/s/AKfycbz9TAKS1F5tGwmn-ptYH8uTNeWXG3k1OKkHDoD2cAunNwbI4Mg0GAv3JEyPP3kUe0zNLg/exec, {
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
         body: JSON.stringify(data)
       });
@@ -68,26 +59,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const result = await response.json();
 
       if (result.status === "success") {
-
         mensaje.innerHTML = "✅ Venta guardada";
         formulario.reset();
         total.value = "";
-
         btnGuardar.textContent = "Enviado ✔";
         btnGuardar.disabled = true;
-
-        // ⏳ Reactivar tras 15 segundos
-        setTimeout(() => {
-          btnGuardar.textContent = "Guardar";
-          validarFormulario();
-        }, 15000);
-
       } else {
         throw new Error("Servidor rechazó datos");
       }
 
     } catch (error) {
-
       mensaje.innerHTML = "❌ Error de conexión";
       btnGuardar.disabled = false;
       btnGuardar.textContent = "Guardar";
@@ -95,7 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   formulario.addEventListener("submit", e => {
-
     e.preventDefault();
 
     // 🔒 Bloqueo inmediato
