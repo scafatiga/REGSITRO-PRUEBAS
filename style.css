@@ -1,0 +1,57 @@
+html, body {
+  margin:0;
+  padding:0;
+  width:100vw;
+  height:100vh;
+  font-family: Arial, sans-serif;
+  background:#f0f2f5;
+}
+body {
+  display:flex;
+  justify-content:center;
+  align-items:flex-start; /* inicia desde arriba */
+  padding-top:20px; /* margen superior */
+}
+form {
+  width:95%;
+  max-width:480px; /* un poquito más estrecho */
+  background:white;
+  padding:15px; /* menos padding para que no se salga */
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.2);
+  overflow-y:auto;
+  max-height:90vh;
+  box-sizing:border-box;
+}
+input, textarea, button {
+  width:100%;
+  padding:10px; /* menos padding que antes */
+  margin-top:8px; /* menos separación vertical */
+  font-size:16px; /* tamaño legible en móvil */
+  border-radius:6px;
+  border:1px solid #ccc;
+  box-sizing:border-box; /* importante para que width:100% no se salga */
+}
+button {
+  background:#4CAF50;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+button:disabled {
+  background:#ccc;
+  cursor:default;
+}
+#total {
+  background:#e0e0e0;
+  font-weight:bold;
+}
+#mensaje {
+  margin-top:10px;
+  padding:10px;
+  border-radius:6px;
+  display:none;
+  font-size:15px;
+}
+#mensaje.success { background:#d4edda; color:#155724; }
+#mensaje.error { background:#f8d7da; color:#721c24; }
