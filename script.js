@@ -23,21 +23,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const efectivo = parseEuro(ventaEfectivo.value);
     const tarjeta = parseEuro(ventaTarjeta.value);
     total.value = (efectivo + tarjeta).toFixed(2).replace(".", ",");
+    validarFormulario();
   }
 
   function validarFormulario() {
-      const obligatorio =
-    fecha.value.trim() !== "" &&
-    nombre.value.trim() !== "" &&
-    puntoVenta.value.trim() !== "" &&
-    ventaEfectivo.value.trim() !== "" &&
-    ventaTarjeta.value.trim() !== "" &&
-    total.value.trim() !== "";
 
-  btnGuardar.disabled = !obligatorio;
+    const obligatorio =
+      fecha.value.trim() !== "" &&
+      nombre.value.trim() !== "" &&
+      puntoVenta.value.trim() !== "" &&
+      ventaEfectivo.value.trim() !== "" &&
+      ventaTarjeta.value.trim() !== "" &&
+      total.value.trim() !== "";
+
+    btnGuardar.disabled = !obligatorio;
   }
 
-  [fecha, nombre, puntoVenta].forEach(c => {
+  [fecha, nombre, puntoVenta, ventaEfectivo, ventaTarjeta].forEach(c => {
     c.addEventListener("input", validarFormulario);
     c.addEventListener("change", validarFormulario);
   });
@@ -47,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   async function enviarDatos(data) {
+
     try {
       const response = await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
@@ -56,21 +59,26 @@ document.addEventListener("DOMContentLoaded", () => {
       const result = await response.json();
 
       if (result.status === "success") {
+
         mensaje.innerHTML = "✅ Venta guardada";
         formulario.reset();
         total.value = "";
+
         btnGuardar.textContent = "Enviado ✔";
         btnGuardar.disabled = true;
+
         // ⏳ Reactivar tras 15 segundos
-setTimeout(() => {
-  btnGuardar.textContent = "Guardar";
-  validarFormulario();
-}, 15000);
+        setTimeout(() => {
+          btnGuardar.textContent = "Guardar";
+          validarFormulario();
+        }, 15000);
+
       } else {
         throw new Error("Servidor rechazó datos");
       }
 
     } catch (error) {
+
       mensaje.innerHTML = "❌ Error de conexión";
       btnGuardar.disabled = false;
       btnGuardar.textContent = "Guardar";
@@ -78,6 +86,7 @@ setTimeout(() => {
   }
 
   formulario.addEventListener("submit", e => {
+
     e.preventDefault();
 
     // 🔒 Bloqueo inmediato
