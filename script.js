@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const efectivo = parseEuro(ventaEfectivo.value);
     const tarjeta = parseEuro(ventaTarjeta.value);
     const gasto = parseEuro(gastos.value);
-    total.value = (efectivo + tarjeta - gasto).toFixed(2).replace(".", ",");
+    total.value = (efectivo + tarjeta).toFixed(2).replace(".", ",");
   }
 
   function validarFormulario() {
